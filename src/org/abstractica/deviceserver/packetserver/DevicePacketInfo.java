@@ -6,8 +6,8 @@ import java.net.InetAddress;
 
 public interface DevicePacketInfo extends DevicePacket
 {
-    public void setAddress(InetAddress address, int port);
-    public InetAddress getDeviceAddress();
-    public int getDevicePort();
-    public int getMsgId();
+    void setAddress(InetAddress address, int port);
+    InetAddress getDeviceAddress();
+    int getDevicePort();
+    int getMsgId();
 }

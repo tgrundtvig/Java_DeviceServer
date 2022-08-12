@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="JavaBlocks">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../JavaBlocks/out/JavaBlocks.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/JavaBlocks.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

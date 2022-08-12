@@ -2,10 +2,10 @@ package org.abstractica.deviceserver;
 
 public interface DevicePacket
 {
-    public long getDeviceId();
-    public int getCommand();
-    public int getArg1();
-    public int getArg2();
-    public boolean hasLoad();
-    public byte[] getLoad();
+    long getDeviceId();
+    int getCommand();
+    int getArg1();
+    int getArg2();
+    boolean hasLoad();
+    byte[] getLoad();
 }
