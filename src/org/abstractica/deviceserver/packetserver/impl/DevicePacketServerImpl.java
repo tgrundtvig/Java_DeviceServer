@@ -11,18 +11,18 @@ import org.abstractica.deviceserver.packetserver.DevicePacketServer;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
-public class RemoteDevicePacketServerImpl implements DevicePacketServer
+public class DevicePacketServerImpl implements DevicePacketServer
 {
     private Output<DevicePacketInfo> sendConnection;
     private Input<DevicePacketInfo> receiveConnection;
     private ThreadControl receiveCtrl;
     private ThreadControl sendCtrl;
 
-    public RemoteDevicePacketServerImpl(int port, int maxPacketSize, int bufferSize) throws SocketException, UnknownHostException
+    public DevicePacketServerImpl(int port, int maxPacketSize, int bufferSize) throws SocketException, UnknownHostException
     {
         BasicBlockFactory basicFactory = BasicBlockFactoryImpl.getInstance();
-        DeviceBlockFactory remoteDeviceFactory = RemoteDeviceBlockFactoryImpl.getInstance();
-        SocketBlock<DevicePacketInfo> socket = remoteDeviceFactory.getRemoteDevicePacketSocket(port, maxPacketSize);
+        DeviceBlockFactory remoteDeviceFactory = DeviceBlockFactoryImpl.getInstance();
+        SocketBlock<DevicePacketInfo> socket = remoteDeviceFactory.getDevicePacketSocket(port, maxPacketSize);
         ThreadBlock<DevicePacketInfo> receiveThread = basicFactory.getThreadBlock();
         BufferBlock<DevicePacketInfo> receiveBuffer = basicFactory.getBufferBlock(bufferSize);
         ThreadBlock<DevicePacketInfo> sendThread = basicFactory.getThreadBlock();

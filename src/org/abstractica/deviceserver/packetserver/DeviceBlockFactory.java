@@ -8,5 +8,5 @@ import java.net.UnknownHostException;
 
 public interface DeviceBlockFactory
 {
-    SocketBlock<DevicePacketInfo> getRemoteDevicePacketSocket(int port, int maxPacketSize) throws SocketException, UnknownHostException;
+    SocketBlock<DevicePacketInfo> getDevicePacketSocket(int port, int maxPacketSize) throws SocketException, UnknownHostException;
 }

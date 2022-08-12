@@ -8,7 +8,7 @@ import org.abstractica.deviceserver.packetserver.DevicePacketInfo;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
-public class RemoteDeviceBlockFactoryImpl implements DeviceBlockFactory
+public class DeviceBlockFactoryImpl implements DeviceBlockFactory
 {
     private static DeviceBlockFactory instance = null;
 
@@ -16,16 +16,16 @@ public class RemoteDeviceBlockFactoryImpl implements DeviceBlockFactory
     {
         if(instance == null)
         {
-            instance = new RemoteDeviceBlockFactoryImpl();
+            instance = new DeviceBlockFactoryImpl();
         }
         return instance;
     }
 
-    private RemoteDeviceBlockFactoryImpl() {}
+    private DeviceBlockFactoryImpl() {}
 
     @Override
-    public SocketBlock<DevicePacketInfo> getRemoteDevicePacketSocket(int port, int maxPackageSize) throws SocketException, UnknownHostException
+    public SocketBlock<DevicePacketInfo> getDevicePacketSocket(int port, int maxPackageSize) throws SocketException, UnknownHostException
     {
-        return new RemoteDevicePacketUDPSocketBlockImpl(ErrorLogImpl.getInstance(), port, maxPackageSize);
+        return new DevicePacketUDPSocketBlockImpl(ErrorLogImpl.getInstance(), port, maxPackageSize);
     }
 }

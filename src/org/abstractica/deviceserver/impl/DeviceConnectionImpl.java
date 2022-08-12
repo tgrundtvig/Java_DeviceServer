@@ -5,7 +5,7 @@ import org.abstractica.deviceserver.DeviceServerListener;
 import org.abstractica.deviceserver.PacketSendCallback;
 import org.abstractica.deviceserver.ReservedCommands;
 import org.abstractica.deviceserver.packetserver.DevicePacketInfo;
-import org.abstractica.deviceserver.packetserver.impl.RemoteDevicePacketInfoImpl;
+import org.abstractica.deviceserver.packetserver.impl.DevicePacketInfoImpl;
 
 import java.net.InetAddress;
 import java.nio.charset.StandardCharsets;
@@ -118,7 +118,7 @@ public class DeviceConnectionImpl
         }
         packetSentCount = 0;
         isBlocking = blocking;
-        packetToSend = new RemoteDevicePacketInfoImpl(deviceId, curMsgId, command, arg1, arg2, load);
+        packetToSend = new DevicePacketInfoImpl(deviceId, curMsgId, command, arg1, arg2, load);
         packetToSend.setAddress(deviceAddress, devicePort);
         this.callback = callback;
         doSendPacket(curTime);
@@ -261,7 +261,7 @@ public class DeviceConnectionImpl
 
     private synchronized void sendAcknowledgePacket(DevicePacketInfo packet, int command, int response) throws InterruptedException
     {
-        DevicePacketInfo ack = new RemoteDevicePacketInfoImpl(deviceId, packet.getMsgId(), command, response, 0, null);
+        DevicePacketInfo ack = new DevicePacketInfoImpl(deviceId, packet.getMsgId(), command, response, 0, null);
         ack.setAddress(deviceAddress, devicePort);
         packetSender.put(ack);
     }

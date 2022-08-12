@@ -9,7 +9,7 @@ import org.abstractica.deviceserver.DeviceServer;
 import org.abstractica.deviceserver.DeviceServerListener;
 import org.abstractica.deviceserver.packetserver.DevicePacketInfo;
 import org.abstractica.deviceserver.packetserver.DevicePacketServer;
-import org.abstractica.deviceserver.packetserver.impl.RemoteDevicePacketServerImpl;
+import org.abstractica.deviceserver.packetserver.impl.DevicePacketServerImpl;
 
 import java.net.InetAddress;
 import java.net.SocketException;
@@ -33,7 +33,7 @@ public class DeviceServerImpl implements DeviceServer, Runnable
                             long updateInterval,
                             DeviceServerListener listener) throws SocketException, UnknownHostException
     {
-        this.packetServer = new RemoteDevicePacketServerImpl(port, maxPacketSize, bufferSize);
+        this.packetServer = new DevicePacketServerImpl(port, maxPacketSize, bufferSize);
         this.connectionHandler = new DeviceConnectionHandlerImpl(packetServer, listener);
         BasicBlockFactory basicFactory = BasicBlockFactoryImpl.getInstance();
         ThreadBlock<DevicePacketInfo> threadBlock = basicFactory.getThreadBlock();

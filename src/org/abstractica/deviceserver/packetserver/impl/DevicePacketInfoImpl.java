@@ -4,7 +4,7 @@ import org.abstractica.deviceserver.packetserver.DevicePacketInfo;
 
 import java.net.InetAddress;
 
-public class RemoteDevicePacketInfoImpl implements DevicePacketInfo
+public class DevicePacketInfoImpl implements DevicePacketInfo
 {
     private int port;
     private InetAddress address;
@@ -16,7 +16,7 @@ public class RemoteDevicePacketInfoImpl implements DevicePacketInfo
 
     private final byte[] load;
 
-    public RemoteDevicePacketInfoImpl(long deviceId, int msgId, int command, int arg1, int arg2, byte[] load)
+    public DevicePacketInfoImpl(long deviceId, int msgId, int command, int arg1, int arg2, byte[] load)
     {
         this.deviceId = deviceId;
         this.msgId = msgId;

@@ -7,7 +7,7 @@ import org.abstractica.deviceserver.packetserver.DevicePacketInfo;
 import java.io.IOException;
 import java.net.*;
 
-public class RemoteDevicePacketUDPSocketBlockImpl implements SocketBlock<DevicePacketInfo>
+public class DevicePacketUDPSocketBlockImpl implements SocketBlock<DevicePacketInfo>
 {
     private final ErrorLog err;
     private final DatagramSocket socket;
@@ -15,7 +15,7 @@ public class RemoteDevicePacketUDPSocketBlockImpl implements SocketBlock<DeviceP
     private final DatagramPacket receivePacket;
     private final DatagramPacket sendPacket;
 
-    public RemoteDevicePacketUDPSocketBlockImpl(ErrorLog err, int port, int maxPacketSize) throws SocketException, UnknownHostException
+    public DevicePacketUDPSocketBlockImpl(ErrorLog err, int port, int maxPacketSize) throws SocketException, UnknownHostException
     {
         this.err = err;
         this.socket = new DatagramSocket(port);
@@ -111,7 +111,7 @@ public class RemoteDevicePacketUDPSocketBlockImpl implements SocketBlock<DeviceP
                 load[i - 16] = data[i + offset];
             }
         }
-        RemoteDevicePacketInfoImpl res = new RemoteDevicePacketInfoImpl(deviceId, msgId, command, arg1, arg2, load);
+        DevicePacketInfoImpl res = new DevicePacketInfoImpl(deviceId, msgId, command, arg1, arg2, load);
         res.setAddress(address, port);
         return res;
     }
