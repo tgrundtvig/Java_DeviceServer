@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="jar" build-on-make="true" name="DeviceServer">
-    <output-path>$PROJECT_DIR$/out/artifacts/DeviceServer</output-path>
+    <output-path>$PROJECT_DIR$/out</output-path>
     <root id="archive" name="DeviceServer.jar">
       <element id="module-output" name="DeviceServer" />
       <element id="library" level="project" name="JavaBlocks" />
