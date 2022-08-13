@@ -1,17 +1,17 @@
 package org.abstractica.deviceserver.example;
 
-import org.abstractica.deviceserver.DeviceServer;
-import org.abstractica.deviceserver.DeviceServerListener;
-import org.abstractica.deviceserver.PacketSendCallback;
-import org.abstractica.deviceserver.impl.DeviceServerImpl;
+import org.abstractica.deviceserver.basedeviceserver.BaseDeviceServer;
+import org.abstractica.deviceserver.basedeviceserver.BaseDeviceServerListener;
+import org.abstractica.deviceserver.basedeviceserver.BaseDeviceServerPacketSendCallback;
+import org.abstractica.deviceserver.basedeviceserver.impl.BaseDeviceServerImpl;
 
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 
-public class ExampleUDPServer implements DeviceServerListener, PacketSendCallback
+public class ExampleUDPServer implements BaseDeviceServerListener, BaseDeviceServerPacketSendCallback
 {
-	private DeviceServer server;
+	private BaseDeviceServer server;
 
 	public static void main(String[] args) throws SocketException, UnknownHostException, InterruptedException
 	{
@@ -24,7 +24,7 @@ public class ExampleUDPServer implements DeviceServerListener, PacketSendCallbac
 	                        int bufferSize,
 	                        long updateInterval) throws SocketException, UnknownHostException
 	{
-		server = new DeviceServerImpl(port, maxPacketSize, bufferSize, updateInterval, this);
+		server = new BaseDeviceServerImpl(port, maxPacketSize, bufferSize, updateInterval, this);
 	}
 
 	public void run() throws InterruptedException

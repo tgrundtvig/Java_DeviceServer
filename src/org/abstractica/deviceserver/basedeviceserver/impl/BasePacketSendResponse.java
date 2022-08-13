@@ -1,12 +1,12 @@
-package org.abstractica.deviceserver.impl;
+package org.abstractica.deviceserver.basedeviceserver.impl;
 
-import org.abstractica.deviceserver.PacketSendCallback;
+import org.abstractica.deviceserver.basedeviceserver.BaseDeviceServerPacketSendCallback;
 
-public class PacketSendResponse implements PacketSendCallback
+public class BasePacketSendResponse implements BaseDeviceServerPacketSendCallback
 {
     private int response;
 
-    public PacketSendResponse()
+    public BasePacketSendResponse()
     {
         this.response = -2;
     }

@@ -1,6 +1,6 @@
-package org.abstractica.deviceserver;
+package org.abstractica.deviceserver.basedeviceserver;
 
-public interface PacketSendCallback
+public interface BaseDeviceServerPacketSendCallback
 {
     void onPacketDelivered(long deviceId, int msgId, int response);
     void onPacketCancelled(long deviceId, int msgId);

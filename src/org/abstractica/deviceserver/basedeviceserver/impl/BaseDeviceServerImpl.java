@@ -1,12 +1,12 @@
-package org.abstractica.deviceserver.impl;
+package org.abstractica.deviceserver.basedeviceserver.impl;
 
 import org.abstractica.javablocks.basic.BasicBlockFactory;
 import org.abstractica.javablocks.basic.ThreadBlock;
 import org.abstractica.javablocks.basic.ThreadControl;
 import org.abstractica.javablocks.basic.impl.BasicBlockFactoryImpl;
-import org.abstractica.deviceserver.PacketSendCallback;
-import org.abstractica.deviceserver.DeviceServer;
-import org.abstractica.deviceserver.DeviceServerListener;
+import org.abstractica.deviceserver.basedeviceserver.BaseDeviceServerPacketSendCallback;
+import org.abstractica.deviceserver.basedeviceserver.BaseDeviceServer;
+import org.abstractica.deviceserver.basedeviceserver.BaseDeviceServerListener;
 import org.abstractica.deviceserver.packetserver.DevicePacketInfo;
 import org.abstractica.deviceserver.packetserver.DevicePacketServer;
 import org.abstractica.deviceserver.packetserver.impl.DevicePacketServerImpl;
@@ -15,10 +15,10 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
-public class DeviceServerImpl implements DeviceServer, Runnable
+public class BaseDeviceServerImpl implements BaseDeviceServer, Runnable
 {
     private final DevicePacketServer packetServer;
-    private final DeviceConnectionHandlerImpl connectionHandler;
+    private final BaseDeviceConnectionHandlerImpl connectionHandler;
     private final ThreadControl threadControl;
     private final long updateInterval;
     private final int port;
@@ -27,14 +27,14 @@ public class DeviceServerImpl implements DeviceServer, Runnable
     private Thread alivenessThread;
     private volatile boolean running;
 
-    public DeviceServerImpl(int port,
-                            int maxPacketSize,
-                            int bufferSize,
-                            long updateInterval,
-                            DeviceServerListener listener) throws SocketException, UnknownHostException
+    public BaseDeviceServerImpl(int port,
+                                int maxPacketSize,
+                                int bufferSize,
+                                long updateInterval,
+                                BaseDeviceServerListener listener) throws SocketException, UnknownHostException
     {
         this.packetServer = new DevicePacketServerImpl(port, maxPacketSize, bufferSize);
-        this.connectionHandler = new DeviceConnectionHandlerImpl(packetServer, listener);
+        this.connectionHandler = new BaseDeviceConnectionHandlerImpl(packetServer, listener);
         BasicBlockFactory basicFactory = BasicBlockFactoryImpl.getInstance();
         ThreadBlock<DevicePacketInfo> threadBlock = basicFactory.getThreadBlock();
         threadBlock.setInput(packetServer);
@@ -60,7 +60,7 @@ public class DeviceServerImpl implements DeviceServer, Runnable
                                        byte[] load,
                                        boolean blocking,
                                        boolean forceSend,
-                                       PacketSendCallback callback) throws InterruptedException
+                                       BaseDeviceServerPacketSendCallback callback) throws InterruptedException
     {
         return connectionHandler.sendPacket(deviceId, command, arg1, arg2, load, blocking, forceSend, callback);
     }

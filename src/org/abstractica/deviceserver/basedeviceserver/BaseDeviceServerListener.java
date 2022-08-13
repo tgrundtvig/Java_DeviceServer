@@ -1,6 +1,6 @@
-package org.abstractica.deviceserver;
+package org.abstractica.deviceserver.basedeviceserver;
 
-public interface DeviceServerListener
+public interface BaseDeviceServerListener
 {
     boolean acceptDevice(long deviceId, String deviceType, int deviceVersion);
     void onNewDevice(long deviceId, String deviceType, int deviceVersion);

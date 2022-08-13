@@ -1,15 +1,15 @@
-package org.abstractica.deviceserver.impl;
+package org.abstractica.deviceserver.basedeviceserver.impl;
 
 import org.abstractica.javablocks.basic.Output;
-import org.abstractica.deviceserver.DeviceServerListener;
-import org.abstractica.deviceserver.PacketSendCallback;
+import org.abstractica.deviceserver.basedeviceserver.BaseDeviceServerListener;
+import org.abstractica.deviceserver.basedeviceserver.BaseDeviceServerPacketSendCallback;
 import org.abstractica.deviceserver.packetserver.DevicePacketInfo;
 import org.abstractica.deviceserver.packetserver.impl.DevicePacketInfoImpl;
 
 import java.net.InetAddress;
 import java.nio.charset.StandardCharsets;
 
-public class DeviceConnectionImpl
+public class BaseDeviceConnectionImpl
 {
     private static final int MAX_IDLE_TIME = 1000;
     private static final int CONNECTED_RESEND_INTERVAL = 1000;
@@ -24,8 +24,8 @@ public class DeviceConnectionImpl
     static final int PING = 65532;
 
     private final Output<DevicePacketInfo> packetSender;
-    private final DeviceServerListener deviceListener;
-    private PacketSendCallback callback;
+    private final BaseDeviceServerListener deviceListener;
+    private BaseDeviceServerPacketSendCallback callback;
     private final long deviceId;
     private String deviceType;
     private int deviceVersion;
@@ -41,9 +41,9 @@ public class DeviceConnectionImpl
     private int curMsgId;
     private int lastReceivedMsgId;
 
-    public DeviceConnectionImpl(Output<DevicePacketInfo> packetSender,
-                                DeviceServerListener deviceListener,
-                                long deviceId)
+    public BaseDeviceConnectionImpl(Output<DevicePacketInfo> packetSender,
+                                    BaseDeviceServerListener deviceListener,
+                                    long deviceId)
     {
         this.packetSender = packetSender;
         this.deviceListener = deviceListener;
@@ -100,7 +100,7 @@ public class DeviceConnectionImpl
         return true;
     }
 
-    public synchronized int sendPacket(long curTime, int command, int arg1, int arg2, byte[] load, boolean blocking, boolean forceSend, PacketSendCallback callback) throws InterruptedException
+    public synchronized int sendPacket(long curTime, int command, int arg1, int arg2, byte[] load, boolean blocking, boolean forceSend, BaseDeviceServerPacketSendCallback callback) throws InterruptedException
     {
         if (packetToSend != null)
         {
