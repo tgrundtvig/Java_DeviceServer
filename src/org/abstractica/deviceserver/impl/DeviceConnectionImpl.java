@@ -3,7 +3,6 @@ package org.abstractica.deviceserver.impl;
 import org.abstractica.javablocks.basic.Output;
 import org.abstractica.deviceserver.DeviceServerListener;
 import org.abstractica.deviceserver.PacketSendCallback;
-import org.abstractica.deviceserver.ReservedCommands;
 import org.abstractica.deviceserver.packetserver.DevicePacketInfo;
 import org.abstractica.deviceserver.packetserver.impl.DevicePacketInfoImpl;
 
@@ -17,6 +16,12 @@ public class DeviceConnectionImpl
     private static final int DISCONNECTED_RESEND_INTERVAL = 10000;
     private static final int CONNECTED_RESEND_COUNT = 5;
     private static final int DISCONNECTED_RESEND_COUNT = 60;
+
+    //Protocol
+    static final int INIT = 65535;
+    static final int INITACK = 65534;
+    static final int MSGACK = 65533;
+    static final int PING = 65532;
 
     private final Output<DevicePacketInfo> packetSender;
     private final DeviceServerListener deviceListener;
@@ -89,7 +94,7 @@ public class DeviceConnectionImpl
             {
                 //Send ping
                 //System.out.println("Sending PING to " + deviceId);
-                sendPacket(curTime, ReservedCommands.PING, 0, 0, null, false, false, null);
+                sendPacket(curTime, PING, 0, 0, null, false, false, null);
             }
         }
         return true;
@@ -136,17 +141,17 @@ public class DeviceConnectionImpl
         this.lastPacketReceived = curTime;
         this.deviceAddress = packet.getDeviceAddress();
         this.devicePort = packet.getDevicePort();
-        if (!initialized() && packet.getCommand() != ReservedCommands.INIT && packet.getCommand() != ReservedCommands.INITACK)
+        if (!initialized() && packet.getCommand() != INIT && packet.getCommand() != INITACK)
         {
-            sendPacket(curTime, ReservedCommands.INIT, 0, 0, null, true, true, null);
+            sendPacket(curTime, INIT, 0, 0, null, true, true, null);
             return true;
         }
         switch (packet.getCommand())
         {
-            case ReservedCommands.INIT:
-            case ReservedCommands.INITACK:
+            case INIT:
+            case INITACK:
                 return onInitPacket(packet);
-            case ReservedCommands.MSGACK:
+            case MSGACK:
                 onAcknowledgePacket(packet);
                 return true;
             default:
@@ -169,10 +174,10 @@ public class DeviceConnectionImpl
             }
             //System.out.println("Last msgId: " + lastReceivedMsgId + " This msgId: " + packet.getMsgId());
             lastReceivedMsgId = packet.getMsgId();
-            if (packet.getCommand() != ReservedCommands.PING)
+            if (packet.getCommand() != PING)
             {
                 int response = deviceListener.onDevicePacketReceived(deviceId, packet.getCommand(), packet.getArg1(), packet.getArg2(), packet.getLoad());
-                sendAcknowledgePacket(packet, ReservedCommands.MSGACK, response);
+                sendAcknowledgePacket(packet, MSGACK, response);
                 return;
             }
         } else
@@ -183,7 +188,7 @@ public class DeviceConnectionImpl
                     " dist: " + msgDist + ")");
              */
         }
-        sendAcknowledgePacket(packet, ReservedCommands.MSGACK, 0);
+        sendAcknowledgePacket(packet, MSGACK, 0);
     }
 
     private synchronized boolean onInitPacket(DevicePacketInfo packet) throws InterruptedException
@@ -215,9 +220,9 @@ public class DeviceConnectionImpl
             }
             return false;
         }
-        if (packet.getCommand() == ReservedCommands.INIT)
+        if (packet.getCommand() == INIT)
         {
-            sendAcknowledgePacket(packet, ReservedCommands.INITACK, 0);
+            sendAcknowledgePacket(packet, INITACK, 0);
         }
         if (!packetDeviceType.equals(deviceType) || packet.getArg1() != deviceVersion)
         {
