@@ -1,4 +1,4 @@
-package org.abstractica.deviceserver;
+package org.abstractica.deviceserver.packetserver;
 
 public interface DevicePacket
 {
