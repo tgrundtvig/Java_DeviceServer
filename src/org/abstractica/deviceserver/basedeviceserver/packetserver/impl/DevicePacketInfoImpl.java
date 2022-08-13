@@ -1,6 +1,6 @@
-package org.abstractica.deviceserver.packetserver.impl;
+package org.abstractica.deviceserver.basedeviceserver.packetserver.impl;
 
-import org.abstractica.deviceserver.packetserver.DevicePacketInfo;
+import org.abstractica.deviceserver.basedeviceserver.packetserver.DevicePacketInfo;
 
 import java.net.InetAddress;
 

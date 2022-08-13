@@ -1,4 +1,4 @@
-package org.abstractica.deviceserver.example;
+package org.abstractica.deviceserver.basedeviceserver.examples;
 
 import org.abstractica.deviceserver.basedeviceserver.BaseDeviceServer;
 import org.abstractica.deviceserver.basedeviceserver.BaseDeviceServerListener;
@@ -9,20 +9,20 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 
-public class ExampleUDPServer implements BaseDeviceServerListener, BaseDeviceServerPacketSendCallback
+public class BaseDeviceServerExample implements BaseDeviceServerListener, BaseDeviceServerPacketSendCallback
 {
-	private BaseDeviceServer server;
-
 	public static void main(String[] args) throws SocketException, UnknownHostException, InterruptedException
 	{
-		ExampleUDPServer exampleServer = new ExampleUDPServer(3377, 1024, 10, 1000);
+		BaseDeviceServerExample exampleServer = new BaseDeviceServerExample(3377, 1024, 10, 1000);
 		exampleServer.run();
 	}
 
-	public ExampleUDPServer(int port,
-	                        int maxPacketSize,
-	                        int bufferSize,
-	                        long updateInterval) throws SocketException, UnknownHostException
+	private BaseDeviceServer server;
+
+	public BaseDeviceServerExample(int port,
+	                               int maxPacketSize,
+	                               int bufferSize,
+	                               long updateInterval) throws SocketException, UnknownHostException
 	{
 		server = new BaseDeviceServerImpl(port, maxPacketSize, bufferSize, updateInterval, this);
 	}
@@ -51,6 +51,10 @@ public class ExampleUDPServer implements BaseDeviceServerListener, BaseDeviceSer
 					}
 				}
 			}
+			if(command % 3 == 0 && ids.length > 0)
+			{
+				server.removeDevice(ids[0]);
+			}
 			Thread.sleep(7000);
 		}
 	}
@@ -58,7 +62,7 @@ public class ExampleUDPServer implements BaseDeviceServerListener, BaseDeviceSer
 	@Override
 	public boolean acceptDevice(long deviceId, String deviceType, int deviceVersion)
 	{
-		return true;
+		return "TestDevice".equals(deviceType) && 1 == deviceVersion;
 	}
 
 	@Override

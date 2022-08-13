@@ -8,5 +8,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="JavaBlocks" level="project" />
+    <orderEntry type="library" name="TextUI" level="project" />
   </component>
 </module>

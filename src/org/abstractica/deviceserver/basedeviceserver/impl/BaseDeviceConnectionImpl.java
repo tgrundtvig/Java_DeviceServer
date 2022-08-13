@@ -3,8 +3,8 @@ package org.abstractica.deviceserver.basedeviceserver.impl;
 import org.abstractica.javablocks.basic.Output;
 import org.abstractica.deviceserver.basedeviceserver.BaseDeviceServerListener;
 import org.abstractica.deviceserver.basedeviceserver.BaseDeviceServerPacketSendCallback;
-import org.abstractica.deviceserver.packetserver.DevicePacketInfo;
-import org.abstractica.deviceserver.packetserver.impl.DevicePacketInfoImpl;
+import org.abstractica.deviceserver.basedeviceserver.packetserver.DevicePacketInfo;
+import org.abstractica.deviceserver.basedeviceserver.packetserver.impl.DevicePacketInfoImpl;
 
 import java.net.InetAddress;
 import java.nio.charset.StandardCharsets;
@@ -206,9 +206,6 @@ public class BaseDeviceConnectionImpl
         String packetDeviceType = new String(packet.getLoad(), StandardCharsets.US_ASCII);
         if(!deviceListener.acceptDevice(deviceId, packetDeviceType, packet.getArg1()))
         {
-            System.out.println("Device NOT accepted. (id: " + deviceId +
-                                                        ", type: " + packetDeviceType +
-                                                        ", version: " + packet.getArg1() + ")" );
             if (isConnected)
             {
                 isConnected = false;
@@ -220,6 +217,7 @@ public class BaseDeviceConnectionImpl
             }
             return false;
         }
+        //Device acceptet
         if (packet.getCommand() == INIT)
         {
             sendAcknowledgePacket(packet, INITACK, 0);
@@ -298,5 +296,17 @@ public class BaseDeviceConnectionImpl
             return 0;
         }
         return packetToSend.getMsgId();
+    }
+
+    public synchronized void removeDevice()
+    {
+        if(isConnected)
+        {
+            deviceListener.onDeviceDisconnected(deviceId);
+        }
+        if (initialized())
+        {
+            deviceListener.onDeviceLost(deviceId);
+        }
     }
 }

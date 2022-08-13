@@ -1,4 +1,4 @@
-package org.abstractica.deviceserver.packetserver;
+package org.abstractica.deviceserver.basedeviceserver.packetserver;
 
 import org.abstractica.javablocks.basic.Input;
 import org.abstractica.javablocks.basic.Output;

@@ -7,9 +7,9 @@ import org.abstractica.javablocks.basic.impl.BasicBlockFactoryImpl;
 import org.abstractica.deviceserver.basedeviceserver.BaseDeviceServerPacketSendCallback;
 import org.abstractica.deviceserver.basedeviceserver.BaseDeviceServer;
 import org.abstractica.deviceserver.basedeviceserver.BaseDeviceServerListener;
-import org.abstractica.deviceserver.packetserver.DevicePacketInfo;
-import org.abstractica.deviceserver.packetserver.DevicePacketServer;
-import org.abstractica.deviceserver.packetserver.impl.DevicePacketServerImpl;
+import org.abstractica.deviceserver.basedeviceserver.packetserver.DevicePacketInfo;
+import org.abstractica.deviceserver.basedeviceserver.packetserver.DevicePacketServer;
+import org.abstractica.deviceserver.basedeviceserver.packetserver.impl.DevicePacketServerImpl;
 
 import java.net.InetAddress;
 import java.net.SocketException;
@@ -63,6 +63,12 @@ public class BaseDeviceServerImpl implements BaseDeviceServer, Runnable
                                        BaseDeviceServerPacketSendCallback callback) throws InterruptedException
     {
         return connectionHandler.sendPacket(deviceId, command, arg1, arg2, load, blocking, forceSend, callback);
+    }
+
+    @Override
+    public void removeDevice(long deviceId)
+    {
+        connectionHandler.removeDevice(deviceId);
     }
 
     @Override

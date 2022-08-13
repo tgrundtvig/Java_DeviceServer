@@ -1,9 +1,9 @@
-package org.abstractica.deviceserver.packetserver.impl;
+package org.abstractica.deviceserver.basedeviceserver.packetserver.impl;
 
 import org.abstractica.javablocks.network.SocketBlock;
 import org.abstractica.javablocks.network.impl.ErrorLogImpl;
-import org.abstractica.deviceserver.packetserver.DeviceBlockFactory;
-import org.abstractica.deviceserver.packetserver.DevicePacketInfo;
+import org.abstractica.deviceserver.basedeviceserver.packetserver.DeviceBlockFactory;
+import org.abstractica.deviceserver.basedeviceserver.packetserver.DevicePacketInfo;
 
 import java.net.SocketException;
 import java.net.UnknownHostException;

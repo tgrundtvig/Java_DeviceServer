@@ -1,8 +1,8 @@
-package org.abstractica.deviceserver.packetserver.impl;
+package org.abstractica.deviceserver.basedeviceserver.packetserver.impl;
 
 import org.abstractica.javablocks.network.ErrorLog;
 import org.abstractica.javablocks.network.SocketBlock;
-import org.abstractica.deviceserver.packetserver.DevicePacketInfo;
+import org.abstractica.deviceserver.basedeviceserver.packetserver.DevicePacketInfo;
 
 import java.io.IOException;
 import java.net.*;

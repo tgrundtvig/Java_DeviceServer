@@ -4,7 +4,7 @@ package org.abstractica.deviceserver.basedeviceserver.impl;
 import org.abstractica.javablocks.basic.Output;
 import org.abstractica.deviceserver.basedeviceserver.BaseDeviceServerListener;
 import org.abstractica.deviceserver.basedeviceserver.BaseDeviceServerPacketSendCallback;
-import org.abstractica.deviceserver.packetserver.DevicePacketInfo;
+import org.abstractica.deviceserver.basedeviceserver.packetserver.DevicePacketInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,9 +34,12 @@ public class BaseDeviceConnectionHandlerImpl implements Output<DevicePacketInfo>
         if (deviceConnection == null)
         {
             deviceConnection = new BaseDeviceConnectionImpl(packageSender,listener,id);
-            map.put(id, deviceConnection);
+            if(deviceConnection.onPacket(curTime, packet))
+            {
+                map.put(id, deviceConnection);
+            }
         }
-        if(!deviceConnection.onPacket(curTime, packet))
+        else if(!deviceConnection.onPacket(curTime, packet))
         {
             map.remove(id);
         }
@@ -100,4 +103,14 @@ public class BaseDeviceConnectionHandlerImpl implements Output<DevicePacketInfo>
             map.remove(id);
         }
     }
+
+	public synchronized void removeDevice(long deviceId)
+	{
+        BaseDeviceConnectionImpl con = map.get(deviceId);
+        if(con != null)
+        {
+            map.remove(deviceId);
+            con.removeDevice();
+        }
+	}
 }

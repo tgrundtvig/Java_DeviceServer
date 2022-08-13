@@ -1,4 +1,4 @@
-package org.abstractica.deviceserver.packetserver.impl;
+package org.abstractica.deviceserver.basedeviceserver.packetserver.impl;
 
 public class BufferUtil
 {
