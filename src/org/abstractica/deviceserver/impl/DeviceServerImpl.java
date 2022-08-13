@@ -11,9 +11,9 @@ import java.util.*;
 
 public class DeviceServerImpl implements DeviceServer, BaseDeviceServerListener
 {
-	private BaseDeviceServer baseServer;
-	private DeviceServerListener listener;
-	private Map<Long, DeviceImpl> map;
+	private final BaseDeviceServer baseServer;
+	private final DeviceServerListener listener;
+	private final Map<Long, DeviceImpl> map;
 
 	public DeviceServerImpl(int port,
 	                        int maxPacketSize,
@@ -56,7 +56,7 @@ public class DeviceServerImpl implements DeviceServer, BaseDeviceServerListener
 			Device dev = map.get(device.getDeviceId());
 			if (dev != null)
 			{
-				if (dev.getDeviceType() == device.getDeviceType() &&
+				if (dev.getDeviceType().equals(device.getDeviceType()) &&
 						dev.getDeviceVersion() == device.getDeviceVersion())
 				{
 					return false;
@@ -206,7 +206,7 @@ public class DeviceServerImpl implements DeviceServer, BaseDeviceServerListener
 	@Override
 	public void onDeviceLost(long deviceId)
 	{
-		DeviceImpl dev = null;
+		DeviceImpl dev;
 		synchronized(map)
 		{
 			dev = map.get(deviceId);
@@ -220,7 +220,7 @@ public class DeviceServerImpl implements DeviceServer, BaseDeviceServerListener
 	@Override
 	public int onDevicePacketReceived(long deviceId, int command, int arg1, int arg2, byte[] load)
 	{
-		DeviceImpl dev = null;
+		DeviceImpl dev;
 		synchronized(map)
 		{
 			dev = map.get(deviceId);
@@ -239,7 +239,7 @@ public class DeviceServerImpl implements DeviceServer, BaseDeviceServerListener
 		private final long version;
 		private boolean isConnected;
 		private DevicePacketHandler packetHandler;
-		private Set<DeviceConnectionListener> listeners;
+		private final Set<DeviceConnectionListener> listeners;
 
 		public DeviceImpl(long id, String type, long version)
 		{
@@ -305,7 +305,11 @@ public class DeviceServerImpl implements DeviceServer, BaseDeviceServerListener
 		public synchronized Response sendPacket(int command, int arg1, int arg2, byte[] packet, boolean blocking, boolean forceSend) throws InterruptedException
 		{
 			ResponseImpl response = new ResponseImpl();
-			baseServer.sendPacket(id, command, arg1, arg2, packet, blocking, forceSend, response);
+			int res = baseServer.sendPacket(id, command, arg1, arg2, packet, blocking, forceSend, response);
+			if(res < 0)
+			{
+				return null;
+			}
 			return response;
 		}
 
