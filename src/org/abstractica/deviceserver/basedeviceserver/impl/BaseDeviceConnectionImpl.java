@@ -82,7 +82,7 @@ public class BaseDeviceConnectionImpl
                     }
                 } else
                 {
-                    System.out.println("Resending packet.");
+                    //System.out.println("Resending packet.");
                     doSendPacket(curTime);
                 }
             }
@@ -186,6 +186,7 @@ public class BaseDeviceConnectionImpl
             System.out.println("Redundant message discarded: (msgId: " + packet.getMsgId() +
                     " lastMsgId: " + lastReceivedMsgId +
                     " dist: " + msgDist + ")");
+
              */
         }
         sendAcknowledgePacket(packet, MSGACK, 0);
@@ -197,6 +198,17 @@ public class BaseDeviceConnectionImpl
         lastReceivedMsgId = 0;
         curMsgId = 0;
         //Clear send buffer
+        if(callback != null)
+        {
+            int msgId = 0;
+            if(packetToSend != null)
+            {
+                msgId = packetToSend.getMsgId();
+            }
+            callback.onPacketCancelled(deviceId, msgId);
+            callback = null;
+        }
+
         packetToSend = null;
         packetSentCount = 0;
         if(!packet.hasLoad())
